@@ -1,0 +1,18 @@
+.wrapper {
+    height: 60px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 12%);
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.content {
+    width: 1150px;
+    height: 100%;
+    background: #ccc;
+}

@@ -1,3 +1,4 @@
+import React from 'react';
 import { Fragment } from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import DefaultLayout from '~/Layouts/DefaultLayout';
@@ -19,7 +20,15 @@ function App() {
 
                         const Page = route.component;
                         return (
-                                <Route key={index} path={route.path} element={ <Layout><Page /></Layout>} />
+                            <Route
+                                key={index}
+                                path={route.path}
+                                element={
+                                    <Layout>
+                                        <Page />
+                                    </Layout>
+                                }
+                            />
                         );
                     })}
                 </Routes>
