@@ -1,0 +1,29 @@
+.wrapper {
+    --rounded: 8px;
+    background: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 12%) 0px 2px 12px;
+    border-radius: var(--rounded);
+    box-sizing: border-box;
+    padding-top: 8px;
+    width: 100%;
+    max-height: min((100vh - 96px) - 60px, 360px);
+    overflow: hidden auto;
+
+    &::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: var(--rounded);
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background: #aeadad;
+        border-radius: var(--rounded);
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background: #a4a4a4;
+    }
+}

@@ -1,5 +1,4 @@
 .search-container {
-    --width-search-input: 360px;
     display: flex;
     align-items: center;
     background-color: #f1f1f2;
@@ -65,28 +64,11 @@
 }
 
 .search-results {
-    width: 360px;
-    box-sizing: border-box;
-    margin-top: -6px;
-    padding-top: 6px;
-    border-radius: 6px;
-    background-color: #f5f5f5;
-    max-height: 360px;
-    overflow-y: scroll;
+    width: var(--width-search-input);
 
-    &::-webkit-scrollbar {
-        width: 10px;
-    }
-
-    &::-webkit-scrollbar-track {
-        background: #f1f1f1;
-    }
-
-    &::-webkit-scrollbar-thumb {
-        background: #aeadad;
-    }
-
-    &::-webkit-scrollbar-thumb:hover {
-        background: #a4a4a4;
+    .title-search-results {
+        color: #333;
+        margin-bottom: 4px;
+        margin-left: 8px;
     }
 }
