@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '~/Layouts/components/Header/Header';
+import Header from '~/layouts/components/Header/Header';
 import styles from './DefaultLayout.module.scss';
 import classNames from 'classnames/bind';
-import SideBar from '~/Layouts/DefaultLayout/SideBar';
+import SideBar from '~/layouts/DefaultLayout/SideBar';
 
 const cx = classNames.bind(styles);
 

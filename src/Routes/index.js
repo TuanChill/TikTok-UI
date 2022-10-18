@@ -1,6 +1,6 @@
-import routesConfig from '~/config/routes';
+import routesConfig from '~/configs/routes';
 
-import HeaderFooter from '~/Layouts/HeaderFooter';
+import HeaderFooter from '~/layouts/HeaderFooter';
 
 import Following from '~/pages/Following';
 import Home from '~/pages/Home';

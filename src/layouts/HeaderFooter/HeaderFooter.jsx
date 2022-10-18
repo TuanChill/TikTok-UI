@@ -1,6 +1,6 @@
 import React from 'react';
-import Footer from '~/Layouts/components/Footer';
-import Header from '~/Layouts/components/Header/Header';
+import Footer from '~/layouts/components/Footer';
+import Header from '~/layouts/components/Header/Header';
 
 function HeaderFooter({ children }) {
     return (

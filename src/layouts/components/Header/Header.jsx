@@ -2,11 +2,11 @@ import React from 'react';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 
-import routesConfig from '~/config/routes';
+import routesConfig from '~/configs/routes';
 
 import styles from './Header.module.scss';
 import { Logo, Menu, PlusIcon } from '~/components/Icons';
-import SearchBox from '~/Layouts/components/Search';
+import SearchBox from '~/layouts/components/Search';
 import Button from '~/components/Button';
 import MenuSection from '~/sections/header/MoreActions';
 import Image from '~/components/Image';
