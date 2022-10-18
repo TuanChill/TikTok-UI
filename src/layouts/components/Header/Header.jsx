@@ -18,11 +18,11 @@ function Header() {
     const handleChangeMenu = (menuItem) => {
         console.log(menuItem);
     };
-    const HaveUser = true;
+    const HaveUser = false;
     return (
         <header className={cx('wrapper')}>
             <div className={cx('content')}>
-                <Link to={routesConfig.home}>
+                <Link to={routesConfig.home} className={cx('logo')}>
                     <Logo />
                 </Link>
                 <SearchBox />
@@ -30,7 +30,11 @@ function Header() {
                     <Button to={routesConfig.upload} outline leftIcon={<PlusIcon />}>
                         Upload
                     </Button>
-                    {!HaveUser && <Button primary>Login</Button>}
+                    {!HaveUser && (
+                        <Button primary to={'/'}>
+                            Login
+                        </Button>
+                    )}
                     <MenuSection items={HaveUser ? UserMenu : MENU_ITEMS} onChange={handleChangeMenu}>
                         {HaveUser ? (
                             <>

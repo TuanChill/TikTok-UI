@@ -1,4 +1,5 @@
 import React, { forwardRef, useState } from 'react';
+import PropTypes from 'prop-types';
 import NoImage from '~/assets/images/NoImage.jpg';
 import styles from './Image.module.scss';
 import classNames from 'classnames';
@@ -20,5 +21,12 @@ const Image = forwardRef(({ className, src, alt, fallback: userFallback, ...prop
         />
     );
 });
+
+Image.propTypes = {
+    classNames: PropTypes.string,
+    src: PropTypes.string.isRequired,
+    fallback: PropTypes.string,
+    alt: PropTypes.string,
+};
 
 export default Image;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames/bind';
 import { Link } from 'react-router-dom';
 
@@ -7,7 +8,7 @@ import Image from '~/components/Image';
 import { Circle } from '../Icons';
 
 const cx = classNames.bind(styles);
-export default function AccountItem({ data }) {
+function AccountItem({ data }) {
     return (
         <Link to={`/@${data.nickname}`} className={cx('account-item')}>
             <Image src={data.avatar} alt={data.full_name} className={cx('avatar')} />
@@ -23,3 +24,10 @@ export default function AccountItem({ data }) {
         </Link>
     );
 }
+
+AccountItem.propTypes = {
+    // value: PropTypes.string
+    data: PropTypes.object,
+};
+
+export default AccountItem;

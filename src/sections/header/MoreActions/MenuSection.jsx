@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
@@ -8,7 +9,7 @@ import MenuItem from '~/sections/header/MoreActions/MenuItem';
 import Header from './Header';
 
 const cx = classNames.bind(styles);
-export default function MenuSection({ children, items, onChange, hideOnClick = false }) {
+function MenuSection({ children, items, onChange, hideOnClick = false }) {
     const [menuList, setMenuList] = useState([{ data: items }]);
     const currentMenuItem = menuList[menuList.length - 1];
 
@@ -34,7 +35,7 @@ export default function MenuSection({ children, items, onChange, hideOnClick = f
         setMenuList((prev) => prev.slice(0, prev.length - 1));
     };
 
-    const handleChangeToFirstMenu = () => {
+    const handleResetMenu = () => {
         setMenuList((prev) => prev.slice(0, 1));
     };
 
@@ -48,12 +49,12 @@ export default function MenuSection({ children, items, onChange, hideOnClick = f
                 render={(attrs) => (
                     <div className={cx('content')} tabIndex="-1" {...attrs}>
                         <PopperWrapper className={cx('menu-popper')}>
-                            {menuList.length > 1 && <Header title={'Language'} onBack={handleBackMenu} />}
+                            {menuList.length > 1 && <Header title={currentMenuItem.title} onBack={handleBackMenu} />}
                             <div className={cx('menu-list')}>{renderItems()}</div>
                         </PopperWrapper>
                     </div>
                 )}
-                onHide={handleChangeToFirstMenu}
+                onHide={handleResetMenu}
                 hideOnClick={hideOnClick}
             >
                 <div className={cx('more-btn')}>{children}</div>
@@ -61,3 +62,11 @@ export default function MenuSection({ children, items, onChange, hideOnClick = f
         </div>
     );
 }
+
+MenuSection.propTypes = {
+    children: PropTypes.node.isRequired,
+    items: PropTypes.array.isRequired,
+    onChange: PropTypes.func,
+    hideOnClick: PropTypes.bool,
+};
+export default MenuSection;

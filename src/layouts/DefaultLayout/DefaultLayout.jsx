@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Header from '~/layouts/components/Header/Header';
 import styles from './DefaultLayout.module.scss';
 import classNames from 'classnames/bind';
@@ -17,5 +18,9 @@ function DefaultLayout({ children }) {
         </div>
     );
 }
+
+DefaultLayout.prototype = {
+    children: PropTypes.node.isRequired,
+};
 
 export default DefaultLayout;
