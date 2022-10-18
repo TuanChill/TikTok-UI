@@ -1,50 +1,18 @@
 import React from 'react';
 import classNames from 'classnames/bind';
+import { Link } from 'react-router-dom';
+
+import routesConfig from '~/config/routes';
+
 import styles from './Header.module.scss';
-import { Coin, Keyboard, Language, Logo, Logout, Menu, PlusIcon, Profile, Question, Setting } from '~/components/Icons';
-import SearchBox from '~/sections/header/search';
+import { Logo, Menu, PlusIcon } from '~/components/Icons';
+import SearchBox from '~/Layouts/components/Search';
 import Button from '~/components/Button';
 import MenuSection from '~/sections/header/MoreActions';
 import Image from '~/components/Image';
+import { MENU_ITEMS, UserMenu } from '~/store/menu';
 
 const cx = classNames.bind(styles);
-
-const MENU_ITEMS = [
-    {
-        title: 'English',
-        icon: <Language />,
-        children: {
-            title: 'Language',
-            data: [
-                { type: 'language', code: 'en', title: 'English' },
-                { type: 'language', code: 'vi', title: 'Tiếng Việt' },
-            ],
-        },
-    },
-    { title: 'Feedback and help', icon: <Question />, to: '/feedback' },
-    { title: 'Keyboard shortcuts', icon: <Keyboard /> },
-];
-
-const UserMenu = [
-    { title: 'View profile', icon: <Profile />, to: '/profile' },
-    {
-        title: 'Get coins',
-        icon: <Coin />,
-        to: '/coin',
-    },
-    {
-        title: 'Setting',
-        icon: <Setting />,
-        to: '/setting',
-    },
-    ...MENU_ITEMS,
-    {
-        title: 'Log out',
-        icon: <Logout />,
-        to: '/logout',
-        separate: true,
-    },
-];
 
 function Header() {
     const handleChangeMenu = (menuItem) => {
@@ -54,14 +22,16 @@ function Header() {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('content')}>
-                <Logo />
+                <Link to={routesConfig.home}>
+                    <Logo />
+                </Link>
                 <SearchBox />
                 <div className={cx('actions')}>
-                    <Button outline leftIcon={<PlusIcon />}>
+                    <Button to={routesConfig.upload} outline leftIcon={<PlusIcon />}>
                         Upload
                     </Button>
                     {!HaveUser && <Button primary>Login</Button>}
-                    <MenuSection items={UserMenu} onChange={handleChangeMenu}>
+                    <MenuSection items={HaveUser ? UserMenu : MENU_ITEMS} onChange={handleChangeMenu}>
                         {HaveUser ? (
                             <>
                                 <Image

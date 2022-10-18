@@ -20,8 +20,15 @@
 .info {
     flex: 1;
 
-    h5 {
+    .full-name {
         font-size: 1.6rem;
+    }
+
+    .tick {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin-left: 6px;
     }
 
     p {

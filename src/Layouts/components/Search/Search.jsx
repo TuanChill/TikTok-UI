@@ -1,64 +1,68 @@
-import React, { useEffect, useRef, useState, useTransition } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import HeadlessTippy from '@tippyjs/react/headless';
 import classNames from 'classnames/bind';
 
-import { Clear, Loading, Search } from '~/components/Icons';
 import styles from './Search.module.scss';
-import useDebounce from '~/hooks/useDebounce';
+import { Clear, Loading, Search } from '~/components/Icons';
 import AccountItem from '~/components/AccountItem';
 import { Wrapper as PopperWrapper } from '~/components/Popper';
-import search from '~/pages/Search';
+import useDebounce from '~/hooks/useDebounce';
+import getAccounts from '~/services/searchService';
 
 const cx = classNames.bind(styles);
 
 export default function SearchBox() {
     const [searchValue, setSearchValue] = useState('');
     const [searchResult, setSearchResult] = useState([]);
-    const [isPending, startTransition] = useTransition();
-    const [showResult, setShowResult] = useState(false);
+    const [showResult, setShowResult] = useState(true);
+    const [isLoading, setLoading] = useState();
     const inputRef = useRef();
     const debounceValue = useDebounce(searchValue, 500);
+
     useEffect(() => {
         if (!debounceValue.trim()) {
             setSearchResult([]);
+            return;
         }
-        // const fetchApi = () => {
-        //startTransition here
-        // }
+        const fetch = async () => {
+            setLoading(true);
+            const accounts = await getAccounts(debounceValue);
+            setSearchResult(accounts.data);
+            setLoading(false);
+        };
+        fetch();
     }, [debounceValue]);
+
     const handleChangeValue = (e) => {
         const searchValue = e.target.value;
         if (!searchValue.startsWith(' ')) {
             setSearchValue(searchValue);
         }
     };
+
     const handleHideSearchResult = () => {
         setShowResult(false);
     };
+
     const handleClearInputValue = () => {
         setSearchValue('');
+        setSearchResult([]);
         inputRef.current.focus();
     };
+
     return (
         <div>
             <HeadlessTippy
                 interactive={true}
-                visible={showResult && debounceValue}
+                visible={showResult && searchResult.length > 0}
                 placement={'bottom'}
                 render={(attrs) => (
                     <div className={cx('search-results')} tabIndex="-1" {...attrs}>
                         <PopperWrapper>
                             <h4 className={cx('title-search-results')}>Search Results: </h4>
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
-                            <AccountItem />
+                            {searchResult.map((acc) => {
+                                return <AccountItem key={acc.id} data={acc} />;
+                            })}
                         </PopperWrapper>
                     </div>
                 )}
@@ -67,25 +71,31 @@ export default function SearchBox() {
                 <div className={cx('search-container')}>
                     <input
                         ref={inputRef}
-                        onChange={handleChangeValue}
                         type="text"
                         value={searchValue}
                         placeholder="Search accounts and videos"
                         spellCheck={'false'}
+                        onChange={handleChangeValue}
                         onFocus={() => setShowResult(true)}
                     />
-                    {!isPending && (
+                    {!!searchValue && !isLoading && (
                         <button onClick={handleClearInputValue} className={cx('clear')}>
                             <Clear />
                         </button>
                     )}
-                    {isPending && (
+                    {!!searchValue && isLoading && (
                         <div className={cx('loading')}>
                             <Loading />
                         </div>
                     )}
                     <div className={cx('separate')}></div>
-                    <button className={cx('search')}>
+                    <button
+                        className={cx('search')}
+                        onMouseDown={(e) => {
+                            e.preventDefault();
+                            inputRef.current.blur();
+                        }}
+                    >
                         <Search />
                     </button>
                 </div>

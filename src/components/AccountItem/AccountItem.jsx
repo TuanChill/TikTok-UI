@@ -1,17 +1,25 @@
 import React from 'react';
-import avatar from '~/assets/images/avatar.jpeg';
 import classNames from 'classnames/bind';
+import { Link } from 'react-router-dom';
+
 import styles from './AccountItem.module.scss';
+import Image from '~/components/Image';
+import { Circle } from '../Icons';
 
 const cx = classNames.bind(styles);
-export default function AccountItem() {
+export default function AccountItem({ data }) {
     return (
-        <div className={cx('account-item')}>
-            <img src={avatar} alt={'avatar cua mot thang at o nao do'} className={cx('avatar')} />
+        <Link to={`/@${data.nickname}`} className={cx('account-item')}>
+            <Image src={data.avatar} alt={data.full_name} className={cx('avatar')} />
             <div className={cx('info')}>
-                <h5>DatVila</h5>
-                <p>Day xa hoi</p>
+                <p>
+                    <span className={cx('full-name')}>{data.full_name}</span>
+                    <span className={cx('tick')}>
+                        <Circle />
+                    </span>
+                </p>
+                <p>{data.nickname}</p>
             </div>
-        </div>
+        </Link>
     );
 }

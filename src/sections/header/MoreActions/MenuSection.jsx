@@ -8,7 +8,7 @@ import MenuItem from '~/sections/header/MoreActions/MenuItem';
 import Header from './Header';
 
 const cx = classNames.bind(styles);
-export default function MenuSection({ children, items, onChange }) {
+export default function MenuSection({ children, items, onChange, hideOnClick = false }) {
     const [menuList, setMenuList] = useState([{ data: items }]);
     const currentMenuItem = menuList[menuList.length - 1];
 
@@ -42,7 +42,6 @@ export default function MenuSection({ children, items, onChange }) {
         <div>
             <HeadlessTippy
                 interactive
-                onHide={handleChangeToFirstMenu}
                 delay={[0, 800]}
                 offset={[14, 10]}
                 placement={'bottom-end'}
@@ -50,10 +49,12 @@ export default function MenuSection({ children, items, onChange }) {
                     <div className={cx('content')} tabIndex="-1" {...attrs}>
                         <PopperWrapper className={cx('menu-popper')}>
                             {menuList.length > 1 && <Header title={'Language'} onBack={handleBackMenu} />}
-                            {renderItems()}
+                            <div className={cx('menu-list')}>{renderItems()}</div>
                         </PopperWrapper>
                     </div>
                 )}
+                onHide={handleChangeToFirstMenu}
+                hideOnClick={hideOnClick}
             >
                 <div className={cx('more-btn')}>{children}</div>
             </HeadlessTippy>
