@@ -1,7 +1,6 @@
 .wrapper {
-    --width: 340px;
     overflow-y: auto;
-    width: var(--width);
+    width: var(--width-sidebar);
     min-height: 10000px;
 }
 

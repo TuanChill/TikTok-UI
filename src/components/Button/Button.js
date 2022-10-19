@@ -17,6 +17,8 @@ const Button = ({
     large = false,
     children,
     className,
+    classNameLeftIcon,
+    classNameRightIcon,
     leftIcon,
     rightIcon,
     onClick,
@@ -45,6 +47,8 @@ const Button = ({
 
     const classes = cx('wrapper', {
         [className]: className,
+        [classNameLeftIcon]: classNameLeftIcon,
+        [classNameRightIcon]: classNameRightIcon,
         primary,
         secondary,
         outline,
@@ -56,9 +60,9 @@ const Button = ({
 
     return (
         <Comp className={classes} {...props}>
-            {leftIcon && <span className={cx('icon')}> {leftIcon} </span>}
+            {leftIcon && <span className={cx('icon', classNameLeftIcon)}> {leftIcon} </span>}
             <span className={cx('title')}>{children}</span>
-            {rightIcon && <span className={cx('icon')}> {rightIcon} </span>}
+            {rightIcon && <span className={cx('icon', classNameRightIcon)}> {rightIcon} </span>}
         </Comp>
     );
 };
@@ -75,6 +79,8 @@ Button.propTypes = {
     large: PropTypes.bool,
     children: PropTypes.node.isRequired,
     className: PropTypes.string,
+    classNameLeftIcon: PropTypes.string,
+    classNameRightIcon: PropTypes.string,
     leftIcon: PropTypes.node,
     rightIcon: PropTypes.node,
     onClick: PropTypes.func,
