@@ -15,11 +15,13 @@ function AccountItem({ data }) {
             <div className={cx('info')}>
                 <p>
                     <span className={cx('full-name')}>{data.full_name}</span>
-                    <span className={cx('tick')}>
-                        <Circle />
-                    </span>
+                    {data.tick && (
+                        <span className={cx('tick')}>
+                            <Circle />
+                        </span>
+                    )}
                 </p>
-                <p>{data.nickname}</p>
+                <p className={cx('nick-name')}>{data.nickname}</p>
             </div>
         </Link>
     );

@@ -26,7 +26,7 @@ export default function SearchBox() {
         }
         const fetch = async () => {
             setLoading(true);
-            const accounts = await getAccounts(debounceValue);
+            const accounts = await getAccounts(debounceValue, 'more');
             setSearchResult(accounts.data);
             setLoading(false);
         };
