@@ -1,12 +1,12 @@
 import { request } from '~/utils/axios';
 
-const getFollower = async (per_page) => {
+const getFollower = async ({ page, per_page }) => {
     try {
         const res = await request({
             method: 'GET',
             url: '/users/suggested',
             params: {
-                page: '1',
+                page,
                 per_page,
             },
         });

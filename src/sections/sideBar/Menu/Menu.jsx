@@ -6,7 +6,7 @@ import MenuItem from '../MenuItem/MenuItem';
 
 const cx = classNames.bind(styles);
 
-function Menu({ items }) {
+const Menu = ({ items }) => {
     return (
         <div className={cx('wrapper')}>
             {items.map((item, index) => (
@@ -14,7 +14,7 @@ function Menu({ items }) {
             ))}
         </div>
     );
-}
+};
 
 Menu.prototype = {
     items: PropTypes.node.isRequired,

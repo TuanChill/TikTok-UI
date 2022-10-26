@@ -17,7 +17,7 @@ function SuggestWrapper() {
             case 'less':
                 if (followersSuggest.more.length === 0) {
                     const getFollowerAccount = async () => {
-                        const res = await getFollower('20');
+                        const res = await getFollower({ page: '1', per_page: '20' });
                         setFollowersSuggestLess((prev) => {
                             return {
                                 ...prev,

@@ -1,8 +1,22 @@
 .wrapper {
-    overflow-y: auto;
+    position: fixed;
     width: var(--width-sidebar);
-    min-height: 10000px;
+    height: calc(100% - var(--header-height) - 24px);
+    overflow-y: auto;
+    margin: 0 16px;
+    padding-right: 26px;
+    overscroll-behavior: contain;
 }
 
-.content {
+.footer {
+    border-top: 1px solid #ccc;
+    border-radius: 0;
+    box-shadow: none;
+    padding: 20px 0;
+    span {
+        font-weight: 600;
+        font-size: 1.2rem;
+        line-height: 17px;
+        color: rgba(22, 24, 35, 0.5);
+    }
 }

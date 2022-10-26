@@ -6,12 +6,13 @@
 }
 
 .container {
-    margin-top: calc(var(--header-height) + 24px);
+    padding-top: calc(var(--header-height) + 24px);
     width: var(--primary-layout-width);
-    min-height: 1000px;
-    display: flex;
 }
 
 .content {
-    flex: 1;
+    height: 1000px;
+    margin-left: calc(var(--width-sidebar) + 64px);
+    width: 692px;
+    padding: 12px;
 }
