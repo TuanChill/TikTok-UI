@@ -2,10 +2,9 @@
     position: fixed;
     width: var(--width-sidebar);
     height: calc(100% - var(--header-height) - 24px);
-    overflow-y: auto;
     margin: 0 16px;
     padding-right: 26px;
-    overscroll-behavior: contain;
+    overflow: overlay;
 }
 
 .footer {
