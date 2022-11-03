@@ -11,8 +11,7 @@
 }
 
 .content {
-    height: 1000px;
     margin-left: calc(var(--width-sidebar) + 64px);
-    width: 692px;
+    max-width: 692px;
     padding: 12px;
 }

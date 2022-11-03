@@ -1,14 +1,15 @@
-import { request } from '~/utils/axios';
+const { request } = require('~/utils/axios');
 
-const getFollower = async ({ page, per_page }) => {
+const getVideos = async (type = 'for-you', page = 1, signal) => {
     try {
         const res = await request({
             method: 'GET',
-            url: 'users/suggested',
+            url: 'videos',
             params: {
+                type,
                 page,
-                per_page,
             },
+            ...signal,
         });
         return res.data;
     } catch (error) {
@@ -16,4 +17,4 @@ const getFollower = async ({ page, per_page }) => {
     }
 };
 
-export default getFollower;
+export default getVideos;

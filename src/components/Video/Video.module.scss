@@ -1,0 +1,12 @@
+.wrapper + .wrapper {
+    padding: 24px 0;
+    border-top: 1px solid #ccc;
+}
+
+.wrapper {
+    scroll-snap-align: center;
+}
+
+.wrapper:nth-child(1) {
+    padding-bottom: 24px;
+}
