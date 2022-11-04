@@ -7,6 +7,7 @@ import Video from '~/components/Video';
 import { ErrIcon, LoadingHourglass } from '~/components/Icons';
 
 import useVideos from '~/hooks/useVideos';
+import MutedProvider from '~/store/mutedVideoContext';
 
 const cx = classNames.bind(styles);
 
@@ -36,31 +37,33 @@ function Home() {
     );
 
     return (
-        <div className={cx('wrapper')}>
-            {videoList.map((video, index) => {
-                if (index === videoList.length - 5) {
-                    return <Video ref={lastEleRef} key={video.uuid} data={video} />;
-                } else {
-                    return <Video key={video.uuid} data={video} />;
-                }
-            })}
-            {isError && (
-                <p className={cx('err-mess')}>
-                    <span className={cx('icon-err')}>
-                        <ErrIcon />
-                    </span>
-                    <span>Error: {error.message}</span>
-                </p>
-            )}
-            {isLoading && (
-                <div className={cx('loading-mess')}>
-                    <span className={cx('icon-loading')}>
-                        <LoadingHourglass />
-                    </span>
-                    <span>Loading more ...</span>
-                </div>
-            )}
-        </div>
+        <MutedProvider>
+            <div className={cx('wrapper')}>
+                {videoList.map((video, index) => {
+                    if (index === videoList.length - 5) {
+                        return <Video ref={lastEleRef} key={video.uuid} data={video} />;
+                    } else {
+                        return <Video key={video.uuid} data={video} />;
+                    }
+                })}
+                {isError && (
+                    <p className={cx('err-mess')}>
+                        <span className={cx('icon-err')}>
+                            <ErrIcon />
+                        </span>
+                        <span>Error: {error.message}</span>
+                    </p>
+                )}
+                {isLoading && pageNum !== 1 && (
+                    <div className={cx('loading-mess')}>
+                        <span className={cx('icon-loading')}>
+                            <LoadingHourglass />
+                        </span>
+                        <span>Loading more ...</span>
+                    </div>
+                )}
+            </div>
+        </MutedProvider>
     );
 }
 

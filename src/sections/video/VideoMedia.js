@@ -1,16 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useContext } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
 
 import { MusicIcon, PauseIcon, PlayIcon, VolumeIcon, VolumeMuted } from '~/components/Icons';
 import useOnScreen from '~/hooks/useOnScreen';
 import styles from './Video.module.scss';
+import { MutedContext } from '~/store/mutedVideoContext';
 
 const cx = classNames.bind(styles);
 
 function VideoMedia({ data }) {
+    const { isMuted, toggleMuted } = useContext(MutedContext);
+
     const [isPlaying, setPlayingVideo] = useState(false);
-    const [isMuted, setMutedVideo] = useState(true);
     const [isHover, setHoverVideo] = useState(false);
     const videoRef = useRef(null);
     const isVisible = useOnScreen(videoRef, '-180px');
@@ -23,30 +25,30 @@ function VideoMedia({ data }) {
             videoRef.current.play();
             setPlayingVideo(true);
             videoRef.current.muted = false;
-            setMutedVideo(false);
+            toggleMuted();
         }
     };
 
     const handleMutedVideo = () => {
         if (isMuted) {
             videoRef.current.muted = false;
-            setMutedVideo(false);
+            toggleMuted();
         } else {
             videoRef.current.muted = true;
-            setMutedVideo(true);
+            toggleMuted();
         }
     };
 
     useEffect(() => {
-        if (videoRef.current && isVisible) {
+        if (videoRef?.current && isVisible) {
             videoRef.current.play();
             setPlayingVideo(true);
-            // videoRef.current.muted = false;
-            // setMutedVideo(false);
+            videoRef.current.muted = isMuted;
         } else {
             videoRef.current.pause();
             setPlayingVideo(false);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isVisible]);
 
     return (
@@ -60,7 +62,7 @@ function VideoMedia({ data }) {
                 onMouseLeave={() => setHoverVideo(false)}
                 className={cx('content')}
             >
-                <video className={cx('desc')} ref={videoRef} loop autoPlay muted src={data.file_url} />
+                <video className={cx('desc')} ref={videoRef} loop autoPlay muted={isMuted} src={data.file_url} />
                 {isHover && (
                     <div className={cx('controls')}>
                         {isPlaying ? (
