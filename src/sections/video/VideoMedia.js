@@ -1,21 +1,25 @@
 import React, { useEffect, useRef, useState, useContext } from 'react';
 import classNames from 'classnames/bind';
 import PropTypes from 'prop-types';
+import HeadlessTippy from '@tippyjs/react/headless';
 
+import styles from './Video.module.scss';
 import { MusicIcon, PauseIcon, PlayIcon, VolumeIcon, VolumeMuted } from '~/components/Icons';
 import useOnScreen from '~/hooks/useOnScreen';
-import styles from './Video.module.scss';
-import { MutedContext } from '~/store/mutedVideoContext';
+
+import { videoContext } from '~/store/VideoContext';
 
 const cx = classNames.bind(styles);
 
 function VideoMedia({ data }) {
-    const { isMuted, toggleMuted } = useContext(MutedContext);
+    const { isMuted, myVolume, setMuted, toggleMuted } = useContext(videoContext);
 
     const [isPlaying, setPlayingVideo] = useState(false);
     const [isHover, setHoverVideo] = useState(false);
     const videoRef = useRef(null);
-    const isVisible = useOnScreen(videoRef, '-180px');
+    const VolumeRef = useRef(null);
+
+    const isVisible = useOnScreen(videoRef, '-300px');
 
     const handleProgress = () => {
         if (isPlaying) {
@@ -32,11 +36,21 @@ function VideoMedia({ data }) {
     const handleMutedVideo = () => {
         if (isMuted) {
             videoRef.current.muted = false;
+            videoRef.current.volume = myVolume;
             toggleMuted();
+            VolumeRef.current.value = myVolume * 100;
         } else {
             videoRef.current.muted = true;
+            VolumeRef.current.value = 0;
             toggleMuted();
         }
+    };
+
+    const handleChangeVolume = (e) => {
+        const value = e.target.value;
+        value != 0 ? setMuted(false) : setMuted(true);
+        VolumeRef.current.value = value;
+        videoRef.current.volume = value / 100;
     };
 
     useEffect(() => {
@@ -74,15 +88,39 @@ function VideoMedia({ data }) {
                                 <PlayIcon />
                             </button>
                         )}
-                        {isMuted ? (
-                            <button onClick={handleMutedVideo} className={cx('volume')}>
-                                <VolumeMuted />
-                            </button>
-                        ) : (
-                            <button onClick={handleMutedVideo} className={cx('volume')}>
-                                <VolumeIcon />
-                            </button>
-                        )}
+                        <div className={cx('audio')}>
+                            <HeadlessTippy
+                                interactive
+                                trigger="mouseenter"
+                                hideOnClick="false"
+                                placement="top"
+                                offset={[-2, 30]}
+                                render={(attrs) => (
+                                    <div tabIndex="-1" {...attrs}>
+                                        <input
+                                            ref={VolumeRef}
+                                            type="range"
+                                            min="0"
+                                            step="2"
+                                            max="100"
+                                            defaultValue="0"
+                                            onChange={handleChangeVolume}
+                                            className={cx('volume')}
+                                        />
+                                    </div>
+                                )}
+                            >
+                                {isMuted ? (
+                                    <button onClick={handleMutedVideo} className={cx('sound')}>
+                                        <VolumeMuted />
+                                    </button>
+                                ) : (
+                                    <button onClick={handleMutedVideo} className={cx('sound')}>
+                                        <VolumeIcon />
+                                    </button>
+                                )}
+                            </HeadlessTippy>
+                        </div>
                     </div>
                 )}
             </div>

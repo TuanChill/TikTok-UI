@@ -7,7 +7,7 @@ import Video from '~/components/Video';
 import { ErrIcon, LoadingHourglass } from '~/components/Icons';
 
 import useVideos from '~/hooks/useVideos';
-import MutedProvider from '~/store/mutedVideoContext';
+import VideoProvider from '~/store/VideoContext';
 
 const cx = classNames.bind(styles);
 
@@ -37,7 +37,7 @@ function Home() {
     );
 
     return (
-        <MutedProvider>
+        <VideoProvider>
             <div className={cx('wrapper')}>
                 {videoList.map((video, index) => {
                     if (index === videoList.length - 5) {
@@ -63,7 +63,7 @@ function Home() {
                     </div>
                 )}
             </div>
-        </MutedProvider>
+        </VideoProvider>
     );
 }
 
