@@ -8,6 +8,7 @@ import { MusicIcon, PauseIcon, PlayIcon, VolumeIcon, VolumeMuted } from '~/compo
 import useOnScreen from '~/hooks/useOnScreen';
 
 import { videoContext } from '~/store/VideoContext';
+import VideoInteractive from './VideoInteractive';
 
 const cx = classNames.bind(styles);
 
@@ -29,7 +30,6 @@ function VideoMedia({ data }) {
             videoRef.current.play();
             setPlayingVideo(true);
             videoRef.current.muted = false;
-            toggleMuted();
         }
     };
 
@@ -48,6 +48,7 @@ function VideoMedia({ data }) {
 
     const handleChangeVolume = (e) => {
         const value = e.target.value;
+        // eslint-disable-next-line eqeqeq
         value != 0 ? setMuted(false) : setMuted(true);
         VolumeRef.current.value = value;
         videoRef.current.volume = value / 100;
@@ -77,6 +78,7 @@ function VideoMedia({ data }) {
                 className={cx('content')}
             >
                 <video className={cx('desc')} ref={videoRef} loop autoPlay muted={isMuted} src={data.file_url} />
+                <VideoInteractive />
                 {isHover && (
                     <div className={cx('controls')}>
                         {isPlaying ? (

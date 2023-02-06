@@ -7,6 +7,7 @@ import Live from '~/pages/Live';
 import Profile from '~/pages/Profile';
 import Search from '~/pages/Search';
 import UpLoad from '~/pages/Upload';
+import NotFound from '~/pages/404';
 
 // public Routes
 export const publicRoutes = [
@@ -16,6 +17,7 @@ export const publicRoutes = [
     { path: '/@:nickname', component: Profile },
     { path: routesConfig.search, component: Search },
     { path: routesConfig.live, component: Live },
+    { path: '*', component: NotFound, layout: HeaderFooter },
 ];
 
 // private routes

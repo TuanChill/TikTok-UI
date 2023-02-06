@@ -120,3 +120,36 @@
         }
     }
 }
+
+
+.modal-auth {
+    width: 483px;
+
+    .title {
+        font-size: 2.4rem;
+        font-weight: 700;
+        text-align: center;
+    }
+}
+
+.video-interactive {
+    position: absolute;
+    right: -68px;
+    bottom: 16px;
+}
+
+.icon-interac {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: rgba(22, 24, 35, .06);
+    fill: rgb(22, 24, 35);
+    cursor: pointer;
+}
+
+.icon-interac + .icon-interac {
+    margin-top: 14px;
+}
