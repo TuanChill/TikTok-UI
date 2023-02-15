@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Fragment } from 'react';
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom';
 import DefaultLayout from '~/layouts/DefaultLayout';
@@ -34,6 +34,9 @@ const router = createBrowserRouter(
 );
 
 function App() {
+    useEffect(() => {
+        window.history.scrollRestoration = 'manual';
+    }, []);
     return (
         <div className="App">
             <RouterProvider router={router} />

@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import classNames from 'classnames/bind';
 
 import styles from './Home.module.scss';
@@ -14,44 +14,43 @@ const cx = classNames.bind(styles);
 function Home() {
     const [pageNum, setPageNum] = useState(1);
 
-    const { videoList, isLoading, isError, error, hasNextPage } = useVideos(pageNum);
+    const { videos: videoList, isLoading, isError } = useVideos(pageNum);
 
-    const intObserver = useRef();
-
-    const lastEleRef = useCallback(
-        (video) => {
-            if (isLoading) return;
-
-            if (intObserver.current) intObserver.current.disconnect();
-            intObserver.current = new IntersectionObserver((videos) => {
-                if (videos[0].isIntersecting && hasNextPage) {
-                    setPageNum((prev) => prev + 1);
-                }
-            });
-
-            if (video) {
-                intObserver.current.observe(video);
+    useEffect(() => {
+        const handleScroll = async (e) => {
+            if (
+                window.innerHeight + e.target.documentElement.scrollTop + e.target.documentElement.scrollHeight * 0.4 >=
+                e.target.documentElement.scrollHeight
+            ) {
+                await setPageNum((prev) => {
+                    console.log(prev);
+                    return prev + 1;
+                });
+                await window.removeEventListener('scroll', handleScroll);
             }
-        },
-        [isLoading, hasNextPage],
-    );
+        };
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, [videoList]);
 
     return (
         <VideoProvider>
             <div className={cx('wrapper')}>
-                {videoList.map((video, index) => {
-                    if (index === videoList.length - 5) {
-                        return <Video ref={lastEleRef} key={video.uuid} data={video} />;
-                    } else {
-                        return <Video key={video.uuid} data={video} />;
-                    }
-                })}
+                {!isLoading && (
+                    <Fragment>
+                        {videoList?.map((video) => {
+                            return <Video key={video.uuid} data={video} />;
+                        })}
+                    </Fragment>
+                )}
                 {isError && (
                     <p className={cx('err-mess')}>
                         <span className={cx('icon-err')}>
                             <ErrIcon />
                         </span>
-                        <span>Error: {error.message}</span>
                     </p>
                 )}
                 {isLoading && pageNum !== 1 && (

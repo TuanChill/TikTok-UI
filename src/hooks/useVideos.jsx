@@ -1,39 +1,20 @@
 import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 import getVideos from '~/services/getVideos';
 
 const useVideos = (pageNum = 1) => {
-    const [videoList, setVideoList] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isError, setIsError] = useState(false);
-    const [error, setError] = useState({});
-    const [hasNextPage, setHasNextPage] = useState(false);
+    const [videos, setVideos] = useState([]);
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ['videos', pageNum],
+        queryFn: () => getVideos('for-you', pageNum).then((res) => res.data),
+        keepPreviousData: true,
+    });
 
     useEffect(() => {
-        setIsLoading(true);
-        setIsError(false);
-        setError({});
-        const controller = new AbortController();
-        const { signal } = controller;
-        getVideos('for-you', pageNum, signal)
-            .then((res) => {
-                if (pageNum === 1) {
-                    setVideoList([...res.data]);
-                } else {
-                    setVideoList((prev) => [...prev, ...res.data]);
-                }
-                setHasNextPage(Boolean(res.data.length));
-                setIsLoading(false);
-            })
-            .catch((err) => {
-                setIsLoading(false);
-                if (signal.aborted) return;
-                setIsError(true);
-                setError({ message: err.message });
-            });
-        return () => controller.abort();
-    }, [pageNum]);
+        setVideos((prev) => [...prev, ...(data || [])]);
+    }, [data]);
 
-    return { videoList, isLoading, isError, error, hasNextPage };
+    return { videos, isLoading, isError };
 };
 
 export default useVideos;
